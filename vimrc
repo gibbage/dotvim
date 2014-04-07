@@ -1,219 +1,139 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                                              "
-"                        __   _(_)_ __ ___  _ __ ___                           "
-"                        \ \ / / | '_ ` _ \| '__/ __|                          "
-"                         \ V /| | | | | | | | | (__                           "
-"                          \_/ |_|_| |_| |_|_|  \___|                          "
-"                                                                              "
-"                                                                              "
-"          http://stevenocchipinti.com                                         "
-"          https://github.com/stevenocchipinti/dotvim                          "
-"                                                                              "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible                  " Must come first because it changes other options.
+filetype off                      " For Vundle
 
-
-" Use Vundle to manage plugins
-filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+
+" Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'bogado/file-line'
-Bundle 'ecomba/vim-ruby-refactoring'
-Bundle 'godlygeek/tabular'
-Bundle 'groenewege/vim-less'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'bling/vim-airline'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mattn/zencoding-vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'sjl/gundo.vim'
-Bundle 'stevenocchipinti/runnermux'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-cucumber'
+
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tsaleh/vim-matchit'
-Bundle 'vim-scripts/grep.vim'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'maxbrunsfeld/vim-yankstack'
-Bundle 'tangledhelix/vim-octopress'
-Bundle 'cakebaker/scss-syntax.vim'
-call yankstack#setup()
-filetype plugin indent on
+Bundle 'tpope/vim-commentary'
+Bundle 'kien/ctrlp.vim'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'bling/vim-airline'
+Bundle 'elzr/vim-json'
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'joonty/vdebug.git'
 
+" Frontend dev plugins
+" Javascript
+Bundle 'pangloss/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                           STANDARD VIM SETTINGS                              "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " HTML
+Bundle 'amirh/HTML-AutoCloseTag'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'gorodinskiy/vim-coloresque'
+Bundle 'tpope/vim-haml'
 
+filetype plugin indent on         " Turn on file type detection.
+syntax enable                     " Turn on syntax highlighting.
 
-" Colors are good!
-syntax on
-colorscheme herald
-set t_Co=256
-"set background=dark
+runtime macros/matchit.vim        " Load the matchit plugin.
 
+set showcmd                       " Display incomplete commands.
+set showmode                      " Display the mode you're in.
 
-" This allows instant reloading of changes to the vimrc upon save.
-au BufWritePost .vimrc,_vimrc,vimrc so $MYVIMRC
-" This will set filetype instead of sourcing a file
-au! BufRead,BufNewFile *.haml setfiletype haml
-au! BufRead,BufNewFile *.ino setfiletype cpp
-autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
+set backspace=indent,eol,start    " Intuitive backspacing.
 
+set hidden                        " Handle multiple buffers better.
 
-set ts=2 sw=2
-set expandtab
-set wrap
-set backspace=indent,eol,start
-set incsearch
-set ruler
-set wildmenu
-set ignorecase
-set smartcase
-set linebreak
-set warn              " Show what mode your in (insert, etc.)
-set scrolloff=3       " Number of lines to always show at at the top and bottom
-set autoindent        " Copy the indentation from the previous line
-set colorcolumn=81    " Highlight the 81st column (shorthand = :set cc=81)
-set cursorline        " Highlight the line which the cursor is on
-set laststatus=2      " Always show a status bar
-set mouse=a           " Make the mouse work - even in terminals
-"set smartindent       " Auto indent after newlines, etc.
-"set textwidth=80      " This automatically puts chars > 80 on the next line
+set wildmenu                      " Enhanced command line completion.
+set wildmode=list:longest         " Complete files like a shell.
 
+set ignorecase                    " Case-insensitive searching.
+set smartcase                     " But case-sensitive if expression contains a capital letter.
 
+set number                        " Show line numbers.
+set ruler                         " Show cursor position.
+set cursorline                    " Highlight the current line.
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                        CUSTOMIZED VIM FUNCTIONALITY                          "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch                     " Highlight matches as you type.
+set hlsearch                      " Highlight matches.
 
+set history=1000                  " Remember more commands
+set undolevels=1000               " Undo all the things!
 
+set showmatch                     " Show matching parenthesis
+set list                          " Show end of line/whitespace chars.
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
-" Quicker escaping
-" imap kj 
+set wrap                          " Turn on line wrapping.
+set scrolloff=3                   " Show 3 lines of context around the cursor.
 
+set title                         " Set the terminal's title
 
-" When you dont have write access, :W will write with sudo
-" Without this, you could use ':w !sudo tee %'
-command! W w !sudo tee % > /dev/null
+set visualbell                    " No beeping.
 
+set nobackup                      " Don't make a backup before overwriting a file.
+set nowritebackup                 " And again.
+set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 
-" Map CTRL+<ARROW> to switch windows (doesn't work in Mac)
-map <C-Down> j
-imap <C-Down> j
-map <C-Up> k
-imap <C-Up> k
-map <C-Right> l
-imap <C-Right> l
-map <C-Left> h
-imap <C-Left> h
+set tabstop=4                     " Global tab width.
+set shiftwidth=4                  " And again, related.
+set expandtab                     " Use spaces instead of tabs
+set autoindent                    " Copy the indentation from the previous line
+set colorcolumn=80                " Add the vertical line limit indicator
+" highlight ColorColumn ctermbg=174 " Change the colour of the colorcolumn
 
-
-" Easier way to copy and paste from the global clipboard
-map <leader>p "+p
-map <leader>y "+y
-" Y should act like C and D!
-map Y y$
-
-
-" Shortcuts for ruby development and debugging
-map <leader>d orequire 'debugger'; debugger; puts ""
-map <leader>D Orequire 'debugger'; debugger; puts ""
-
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                     CUSTOMIZED EXTERNAL FUNCTIONALITY                        "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" Format JSON - filter the file through Python to format it
-map =j :%!python -m json.tool
-
-
-" Format Ruby Hash - convert to json and run the above python script
-map =r :%s/=>/:/g:%!python -m json.tool
-
-
-" Format XML - filter the file through xmllint to indent XML
-map =x :%!xmllint -format -
-
-
-" Remove un-needed whitespace
-map <silent> =w :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                  PLUGINS                                     "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" YANKSTACK PLUGIN
-nmap <leader>o <Plug>yankstack_substitute_older_paste
-nmap <leader>i <Plug>yankstack_substitute_newer_paste
-
-
-" GREP PLUGIN
-map <leader>g :Rgrep
-map <leader>G :Grep
-
-
-" ZENCODING PLUGIN - (mnemonic: Helper)
-let g:user_zen_leader_key = '<c-h>' " Something that wasn't already used
-let g:user_zen_settings = {
-\   "indentation": "  ",
-\   "ruby": {
-\     "snippets": {
-\       "debug": "require 'ruby-debug'; debugger"
-\     }
-\   }
-\ }
-imap <C-@> <c-h>,
-
-
-" TAG LIST PLUGIN - show tags (mnemonic: Ctags)
-" Show the tags from just the focused file
-let g:Tlist_Show_One_File=1
-nmap <leader>c :TlistToggle
-" Build ctags (requires exuberant-ctags)
-nmap <leader>C :!ctags -R .
-
-
-" TABULAR
-vmap <leader><tab>p :Tabularize /\|
-vmap <leader><tab>= :Tabularize /=
-vmap <leader><tab>: :Tabularize /:
-
-
-" NERDTREE PLUGIN - (mnemonic: Files)
-nmap <leader>f :NERDTreeToggle
-nmap <leader>F :NERDTreeFind
-
-
-" GUNDO PLUGIN - show undo tree (mnemonic: Undo)
-map <leader>u :GundoToggle
-
-
-" AIRLINE PLUGIN
+set laststatus=2                  " Show the status line all the time
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
 
+set encoding=utf-8
+" set guifont=Monaco-Powerlinefdsfdsfdsf
 
-" SYNTASTIC PLUGIN
-"let g:syntastic_mode_map = { 'mode': 'active' }
+" COLOURS
+let &t_Co=256
+colorscheme jellybeans
 
+" Change leader key
+let mapleader=","
 
-" CTRL-P PLUGIN
+" Tab mappings.
+map <leader>tt :tabnew<cr>
+map <leader>te :tabedit
+map <leader>tc :tabclose<cr>
+map <leader>to :tabonly<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprevious<cr>
+map <leader>tf :tabfirst<cr>
+map <leader>tl :tablast<cr>
+map <leader>tm :tabmove
+
+" Quickly edit/reload the vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>   " Remove search higlights with / char.
+
+" Buffers
+" Jump between open buffers
+nmap <silent> <leader>k :bp<CR>
+nmap <silent> <leader>j :bn<CR>
+nnoremap <F5> :buffers<CR>:buffer<Space>
+
+" Involk CtrlP plugin by actual using Ctrl-P keys.
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMRU'
+
+set pastetoggle=<F2>                " Easy toggle for paste mode.
+
+" Controversial...swap colon and semicolon for easier commands
+nnoremap ; :
+
+"vnoremap ; :
+"vnoremap : ;
+
+" Automatic fold settings for specific files. Uncomment to use.
+" autocmd FileType ruby setlocal foldmethod=syntax
+" autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 tabstop=2
+
+" let g:Powerline_symbols='unicode'
+
 let g:ctrlp_user_command = {
 \   'types': {
 \     1: ['.git/', 'cd %s && git ls-files'],
@@ -221,61 +141,23 @@ let g:ctrlp_user_command = {
 \   },
 \   'fallback': 'find %s -type f'
 \ }
-map <leader><C-P> :CtrlPCurFile
 
+" NERDTree configs
+map <leader>n :NERDTreeToggle<CR>
+silent! map <F3> :NERDTreeFind<CR>
+" let g:NERDTreeMapActivateNode="<F3>"
 
-" FUZZY FINDER PLUGIN (mnemonic: Search-X)
-map <leader>sb :FufBuffer
-map <leader>sf :FufFile
-map <leader>sF :FufFileWithCurrentBufferDir
-map <leader>sd :FufDir
-map <leader>sD :FufDirWithCurrentBuffer
-map <leader>st :FufTag
-map <leader>s] :FufTagWithCursorWord
-map <leader>sj :FufJumpList
-map <leader>sc :FufChangeList
-map <leader>sq :FufQuickfix
-map <leader>sl :FufLine
-map <leader>sh :FufHelp
-" See :help fuf-vimrc-example for a full example
+" VDebug config
+" let g:vdebug_options['server'] = 'local.1form.com'
+" let g:vdebug_options['port'] = 9000
+" let g:vdebug_options['path_maps'] = {"/home/user/scripts": "/home/jon/php"}
 
+" GitGutter config
+" let g:gitgutter_realtime = 0
+" let g:gitgutter_eager = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                               FUNCTION KEYS                                  "
+"                                  PROJECT DEBUGGING                           "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" F2 - Toggle highlighting for searches (in normal mode)
-nmap <F2> :set hls!:set hls?
-"set hlsearch
-
-
-" F3 - Toggle trailing whitespace and tab characters visibility
-set list
-set listchars=tab:=»,trail:·
-nmap <F3> :set list!:set list?
-
-
-" F4 - Toggle line numbers along the side
-nmap <F4> :set nu!:set nu?
-set nu
-
-
-" F5 - Make switching windows easier
-nmap <F5> w
-imap <F5> wa
-nmap <S-F5> W
-imap <S-F5> Wa
-
-
-" F6 - Toggle line wrapping
-nmap <F6> :set wrap!:set wrap?
-
-
-" F7 - Toggle spellcheck
-nmap <F7> :set spell!:set spell?
-
-
-" F8 - Toggle diff view (need to toggle on both desired buffers)
-nmap <F8> :set diff! scb!:set diff?
+au BufRead,BufNewFile *1form-app/* let g:vdebug_options['path_maps'] = {"/home/vagrant/": "/Users/shane.gibb/projects/rea/1form/"}
