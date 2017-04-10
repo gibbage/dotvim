@@ -24,6 +24,8 @@ Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
 " File explorer
 Bundle 'scrooloose/nerdtree'
+" Use Ag for searching in files within Vim
+Bundle 'rking/ag.vim'
 
 filetype plugin indent on         " Turn on file type detection.
 syntax enable                     " Turn on syntax highlighting.
@@ -131,13 +133,13 @@ nnoremap ; :
 
 " let g:Powerline_symbols='unicode'
 
-let g:ctrlp_user_command = {
-\   'types': {
-\     1: ['.git/', 'cd %s && git ls-files'],
-\     2: ['.hg/', 'hg --cwd %s locate -I .'],
-\   },
-\   'fallback': 'find %s -type f'
-\ }
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " unlet g:ctrlp_user_command
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 " NERDTree configs
 map <leader>n :NERDTreeToggle<CR>
@@ -153,6 +155,12 @@ silent! map <F3> :NERDTreeFind<CR>
 " let g:gitgutter_realtime = 0
 " let g:gitgutter_eager = 0
 
+" Ag config
+if executable('ag')
+  let g:ag_working_path_mode="r"
+  " bind K to grep word under cursor
+  nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  PROJECT DEBUGGING                           "
