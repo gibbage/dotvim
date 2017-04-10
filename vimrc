@@ -15,7 +15,6 @@ Bundle 'tpope/vim-commentary'
 Bundle 'kien/ctrlp.vim'
 " Show git changes in gutter
 Bundle 'airblade/vim-gitgutter'
-Bundle 'terryma/vim-multiple-cursors'
 " Fancy status bar
 Bundle 'bling/vim-airline'
 " JSON highlighting
@@ -25,18 +24,6 @@ Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
 " File explorer
 Bundle 'scrooloose/nerdtree'
-Bundle 'joonty/vdebug.git'
-
-" Frontend dev plugins
-" Javascript
-Bundle 'pangloss/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
-
-" " HTML
-Bundle 'amirh/HTML-AutoCloseTag'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'gorodinskiy/vim-coloresque'
-Bundle 'tpope/vim-haml'
 
 filetype plugin indent on         " Turn on file type detection.
 syntax enable                     " Turn on syntax highlighting.
