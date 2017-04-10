@@ -8,14 +8,22 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 Bundle 'tpope/vim-fugitive'
+
+" Easily comment out source code
 Bundle 'tpope/vim-commentary'
+" Fuzzy file/buffer/mru/tag finder
 Bundle 'kien/ctrlp.vim'
+" Show git changes in gutter
 Bundle 'airblade/vim-gitgutter'
 Bundle 'terryma/vim-multiple-cursors'
+" Fancy status bar
 Bundle 'bling/vim-airline'
+" JSON highlighting
 Bundle 'elzr/vim-json'
+" Integration with Dash
 Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
+" File explorer
 Bundle 'scrooloose/nerdtree'
 Bundle 'joonty/vdebug.git'
 
