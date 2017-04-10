@@ -72,6 +72,15 @@ set nobackup                      " Don't make a backup before overwriting a fil
 set nowritebackup                 " And again.
 set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 
+if has("autocmd")
+  au BufNewFile,BufRead *.json setfiletype json syntax=javascript
+  au BufNewFile,BufRead *.gradle setfiletype gradle syntax=groovy
+  au BufNewFile,BufRead *.tag setfiletype tag syntax=java
+
+  au FileType javascript set tabstop=2|set shiftwidth=2
+  au FileType ruby set tabstop=2|set shiftwidth=2
+endif
+
 set tabstop=4                     " Global tab width.
 set shiftwidth=4                  " And again, related.
 set expandtab                     " Use spaces instead of tabs
