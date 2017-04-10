@@ -155,15 +155,6 @@ map <leader>n :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
 " let g:NERDTreeMapActivateNode="<F3>"
 
-" VDebug config
-" let g:vdebug_options['server'] = 'local.1form.com'
-" let g:vdebug_options['port'] = 9000
-" let g:vdebug_options['path_maps'] = {"/home/user/scripts": "/home/jon/php"}
-
-" GitGutter config
-" let g:gitgutter_realtime = 0
-" let g:gitgutter_eager = 0
-
 " Ag config
 if executable('ag')
   let g:ag_working_path_mode="r"
